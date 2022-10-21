@@ -28,12 +28,20 @@ namespace DesktopImage {
         private void ImageForm_MouseMove(object? sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 //좌클릭중일때
-                Location = new Point(Left - (mousePoint.X - e.X), Top - (mousePoint.Y - e.Y));
+                move(false, new Point(Left - (mousePoint.X - e.X), Top - (mousePoint.Y - e.Y)));
                 //Location의 좌표는 모니터상 좌표 (user32...) Left는 현재 폼의 width 위치, top은 현재 폼의 height 위치
                 //마우스 클릭 당시 지정된 포인터는 => 폼안에서의 위치 (height, width)
                 //따라서 기존 좌표 (150,150) => 마우스 움직이면서 (100, 100) => 괄호안 계산식은 기존 폼 절대 좌표 - 50, 절대좌표 -50 즉 50만큼 동일하게 이동
 
             }
+        }
+
+
+       public void move(bool otherThread, Point point) {
+            if (otherThread && IsHandleCreated) //show가 호출된경우 
+                Invoke(() => Location = point);
+            else
+                Location = point;
         }
 
         private void MainForm_Load(object? sender, EventArgs e) {
@@ -46,6 +54,14 @@ namespace DesktopImage {
         private void MainForm_Shown(object? sender, EventArgs e) {
             Focus(); //포커싱
             TopMost = true; //항상 위에 올라오게 설정
+        }
+
+        public void Resize_Form(Size v) {
+            Size = v;
+        }
+
+        public Twin<Point> GetSize() {
+            return new Twin<Point>(new Point(Left, Top), new Point(Right, Bottom));
         }
 
 

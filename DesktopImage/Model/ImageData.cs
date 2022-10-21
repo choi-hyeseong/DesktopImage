@@ -9,7 +9,10 @@ namespace DesktopImage {
     public class ImageData {
         //nullable, path가 들어올때 무조건 이미지 파일.
 
-        //private MoveStrategy strategy;
+        public MovingStrategy? strategy { get; set; }
+        public int speed { get; set; }
+
+
         private string? imgPath {
             get;
             set;
@@ -19,6 +22,7 @@ namespace DesktopImage {
 
         public event EventHandler<ImagePathArg>? ImageChangeEvent;
 
+        
         public bool ImageExist() {
             return imgPath != null && File.Exists(imgPath);
         }
@@ -43,7 +47,11 @@ namespace DesktopImage {
             if (isRunning)
                 NotifyChange();
         }
-       
+
+
+
+
+
 
     }
 
