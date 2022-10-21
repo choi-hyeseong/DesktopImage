@@ -40,7 +40,7 @@ namespace DesktopImage {
     public abstract class MovingStrategy : IMovingStrategy {
 
         protected Point direction; //직접 지정
-        protected Twin<Point>? formPoint; //폼의 크기
+        protected Twin<Point> formPoint = new Twin<Point>(new Point(-1, -1), new Point(-1, -1)); //폼의 크기, SetBound 호출 필요.
         protected Size desktopSize; //화면 최대크기
 
         public virtual bool CanMove() {
